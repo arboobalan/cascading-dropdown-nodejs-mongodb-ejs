@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cascading dropdown</title>
+  <link rel="icon" type="image/x-icon" href="https://icons.iconarchive.com/icons/double-j-design/ravenna-3d/128/Home-icon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <style>
+    .formControl {
+      margin: 10px;
+      padding: 10px;
+      color: #000;
+      background-color: rgb(189, 218, 245);
+      border: 2px solid #373737;
+      border-radius: 5px;
+    }
+
+    select {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 formControl">
+      <h3 class="text-center text-primary">Cascading Dropdown - NodeJS with MongoDB </h3>
+
+      <div class="form-group">
+        <label for="">University Name</label>
+        <div class="d-flex align-items-center">
+
+          <select name="select_university" class="form-control" id="university-dropdown">
+            <option value="select_university">Select University</option>
+            <% if(users.length > 0) { %>
+            <% for (let user of users) { %>
+            <option value="<%= user.universityName %>">
+              <%= user.universityName %>
+
+              <span>
+                <a href='/edit/<%= user._id %>' style="cursor: pointer;">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </span>
+
+            </option>
+
+            <% } %>
+            <% } %>
+          </select>
+
+          &nbsp;
+          <span>
+            <i class="fa fa-plus" data-toggle="modal" data-target="#exampleModalCenter" style="cursor: pointer;"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Examdrive Name</label>
+        <div class="d-flex align-items-center">
+
+          <select name="select_examdrive" class="form-control" id="examdrive-dropdown">
+          </select>
+
+          &nbsp;
+          <span>
+            <i class="fa fa-plus" data-toggle="modal" data-target=".bd-example-modal-lg" style="cursor: pointer;"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Subject Name</label>
+        <div class="d-flex align-items-center">
+
+          <select name="select_subjectName" class="form-control" id="subject-dropdown">
+          </select>
+
+          &nbsp;
+          <span>
+            <i class="fa fa-plus" data-toggle="modal" data-target="#bd-example-modal-lg" style="cursor: pointer;"></i>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-sm btn-primary">Save</button>
+      </div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+
+  <!-- Modal 2-->
+
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Exam Drive</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/examDriveForm" method="post" autocomplete="off">
+          <div class="modal-body">
+            <div class="container">
+              <div class="form-group row">
+                <label for="universityName" class="col-md-4 col-form-label">University Name
+                  <span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="col-md-8">
+
+                  <select name="select_university" class="form-control" id="university-dropdown">
+                    <option value="select_university">Select University</option>
+                    <% if(users.length > 0) { %>
+                    <% for (let user of users) { %>
+                    <option value="<%= user.universityName %>">
+                      <%= user.universityName %>
+                    </option>
+
+                    <% } %>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group mb-3 row">
+                <label for="addExamDrive" class="col-md-4 col-form-label">Exam Drive
+                  <span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="col-md-8">
+                  <input type="text" id="addExamDrive" name="examDriveName" class="form-control ng-pristine ng-valid ng-touched" placeholder="Exam Drive">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
+            <button type="submit" class="btn btn-primary"> Insert </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Model 3 -->
+
+  <div class="modal fade" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Subject Name</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/nameOfSubject" method="post" autocomplete="off">
+            <div class="container">
+              <div class="form-group mb-3 row">
+                <label for="universityName" class="col-md-4 col-form-label">University Name
+                  <span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="col-md-8">
+
+                  <select name="select_university1" class="form-control" id="university-dropdown1">
+                    <option value="select_university1">Select University</option>
+                    <% if(users.length > 0) { %>
+                    <% for (let user of users) { %>
+                    <option value="<%= user.universityName %>">
+                      <%= user.universityName %>
+                    </option>
+                    <% } %>
+                    <% } %>
+                  </select>
+
+                </div>
+              </div>
+
+              <div class="form-group mb-3 row">
+                <label for="examDrive" class="col-md-4 col-form-label">Exam Drive
+                  <span class="text-danger">&nbsp;*</span>
+                </label>
+                <div class="col-md-8">
+
+                  <select name="select_examdrive1" id="examdrive-dropdown1" class="form-control">
+                    <option value="">Select Exam Drive</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="form-group mb-3 row">
+                <label for="subjectName" class="col-md-4 col-form-label">Subject Name</label>
+                <div class="col-md-8">
+                  <input type="text" id="subjectName" name="subjectName" class="form-control ng-untouched ng-pristine ng-invalid" placeholder="Subject Name">
+                </div>
+              </div>
+              <div class="form-group mb-3 row">
+                <label for="subjectCode" class="col-md-4 col-form-label">Subject Code</label>
+                <div class="col-md-8">
+                  <input type="text" id="subjectCode" name="subjectCode" class="form-control ng-untouched ng-pristine ng-invalid" placeholder="Subject Code">
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Insert</button>
+        </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model 1 -->
+
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">University</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/universityForm" method="post" autocomplete="off">
+            <div class="container">
+              <div class="form-group mb-3 row">
+                <label for="addUniversityName" class="col-md-4 col-form-label">University</label>
+                <div class="col-md-8">
+                  <input type="text" id="addUniversityName" name="universityName" class="form-control ng-pristine ng-invalid ng-touched" placeholder="University Name">
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">Insert</button>
+        </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('#university-dropdown1').change(function() {
+
+      var universityName = $(this).val();
+      $.get('/' + universityName, function(response) {
+        $('#examdrive-dropdown1').empty();
+        $('#examdrive-dropdown1').append($('<option>', {
+          value: '',
+          text: 'Select Exam Drive',
+        }));
+
+        const result = response.users;
+        console.log('Your respose => ' + result);
+
+        $.each(result, function(i, value) {
+          $('#examdrive-dropdown1').append($('<option>', {
+            value: value.universityName,
+            text: value.examDriveName,
+          }));
+          //console.log('examDriveName => ' + value.examDriveName);
+        });
+
+      });
+      console.log('universityId => ' + universityName);
+    });
+
+
+    $('#university-dropdown').change(function() {
+      const universityName = $(this).val();
+      $.post('/get-university-by-examdrive', {
+        universityName
+      }, function(data) {
+        $('#examdrive-dropdown').empty();
+        $('#examdrive-dropdown').append($('<option>', {
+          value: '',
+          text: 'Select Exam Drive'
+        }));
+
+        $.each(data.examDrives, function(i, user) {
+          $('#examdrive-dropdown').append($('<option>', {
+            value: user.universityName,
+            text: user.examDriveName
+          }));
+          console.log(user.examDriveName);
+        });
+
+        $('#subject-dropdown').empty();
+        $('#subject-dropdown').append($('<option>', {
+          value: '',
+          text: 'Select Subject',
+        }));
+      });
+      // console.log(universityId);
+    });
+
+
+    $('#examdrive-dropdown').change(function() {
+      const universityName = $(this).val();
+      $.post('/get-examdrive-by-subject', {
+        universityName
+      }, function(data) {
+        $('#subject-dropdown').empty();
+        $('#subject-dropdown').append($('<option>', {
+          value: '',
+          text: 'Select Subject',
+        }));
+        $.each(data.subjectDrives, function(i, subject) {
+          $('#subject-dropdown').append($('<option>', {
+            value: subject.universityName,
+            text: subject.subjectName
+          }));
+          console.log(subject.universityName);
+        });
+      });
+    });
+    
+  </script>
+</body>
+
+</html>
